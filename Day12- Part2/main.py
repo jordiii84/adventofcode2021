@@ -20,6 +20,10 @@ for line in lines:
     nodes.append(nodes_conn[0])
     nodes.append(nodes_conn[1])
 
+connections_node={}
+for node in set(nodes):
+    connections_node[node]=get_connected_nodes(node,connections)
+
 end=False
 paths=[["start"]]
 while not end:
@@ -27,7 +31,7 @@ while not end:
     for path in paths:
         last_node=path[-1]
         if last_node!="end":
-            connected_nodes=get_connected_nodes(last_node,connections)
+            connected_nodes=connections_node[last_node]
             can_revisit_lower=True
             for node in path:
                 if node.islower() and path.count(node)>1:
@@ -43,5 +47,7 @@ while not end:
         end=True
     else:
         paths=new_paths.copy()
-
+    # print("-----Finished_paths-------")
+    # for path in paths:
+    #     print(path)
 print(f"There are {len(paths)} different paths")
